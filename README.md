@@ -38,11 +38,13 @@ MM-Wiki 是一个轻量级的企业知识分享与团队协同软件。本项目
 - **知识库管理** — 文档树形组织、Markdown 编辑与预览、全文搜索
 - **系统架构** — Go 后端与前端模板的整体架构设计
 
-### [LLM Wiki Lite](https://github.com/nashsu/llm_wiki_lite)
+### [LLM Wiki Lite](https://github.com/Akers/llm_wiki_lite)
 
-> 作者：[Yong Su (nashsu)](https://github.com/nashsu) | 协议：[GPLv3](https://github.com/nashsu/llm_wiki_lite/blob/master/LICENSE)
+LLM Wiki Lite 是基于[llm_wiki](https://github.com/nashsu/llm_wiki)的知识管理后端服务。
 
-LLM Wiki Lite 是基于 [Karpathy's LLM-Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 的知识管理后端服务。本项目在以下方面集成并借鉴了 LLM Wiki Lite：
+> llm_wiki作者：[Yong Su (nashsu)](https://github.com/nashsu) | 协议：[GPLv3](https://github.com/nashsu/llm_wiki_lite/blob/master/LICENSE)
+
+本项目深度集成LLM Wiki Lite作为知识图谱管理引擎，并在以下方面集成并借鉴了 LLM Wiki：
 
 - **知识摄取管道** — 双步链式思考（Two-Step CoT）文档摄取与 Wiki 生成
 - **混合搜索引擎** — 分词搜索 + 向量语义搜索 + RRF 融合排序
