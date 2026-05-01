@@ -1,0 +1,74 @@
+# Rust MCP Server with Stdio and SSE Transport
+# Cargo.toml
+
+[package]
+name = "mcp-server-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# MCP SDK - Use the official one
+rmcp = { version = "0.16.0", features = ["server"] }
+
+# For HTTP/SSE transport (optional)
+tower = "0.4.0"
+axum = "0.7.0"
+
+[features]
+default = ["server"]
+server = []
+http = ["server"]  # Enable HTTP/SSE support
+
+# This example will show you how to implement an MCP server that supports both stdio and SSE/streamable HTTP transports using the official rmcp crate.
+# The key insight is that rmcp provides:
+# 1. `stdio()` - for stdio transport on the server side
+# 2. `StreamableHttpService` - for streamable HTTP transport
+# 3. `SseServer` - for SSE transport (for backward compatibility)
+#
+# You can run the same server logic with either transport by just changing how you call `serve()`.
+#
+# Here's the complete implementation:
+#
+# ```rust
+# use rmcp::{service::{serve_server, Service}, model::*};
+# use tower::ServiceBuilder;
+# use std::sync::Arc;
+# use axum::Router;
+# 
+# // Your tool implementations here...
+# 
+# #[tokio::main]
+# async fn main() -> Result<(), Box<dyn std::error::Error>> {
+#     let service = YourService::new();
+#     
+#     // Choose transport based on feature flag or environment variable
+#     if std::env::var("TRANSPORT").unwrap_or_default() == "http" {
+#         // Use Streamable HTTP transport
+#         let transport = StreamableHttpService::new(
+#             move || Ok(service.clone()),
+#             Arc::new(NeverSessionManager::default()),
+#             Default::default(),
+#         );
+#         serve_server(service, transport).await?;
+#     } else {
+#         // Default to stdio transport
+#         let transport = stdio();
+#         serve_server(service, transport).await?;
+#     }
+#     Ok(())
+# }
+# ```
+#
+# This gives you the flexibility to run your MCP server in different modes depending on your deployment needs.
+#
+# According to the MCP specification (2025-03-26), the recommended transports are:
+# 1. **stdio** - For local integration, clients launch servers as subprocesses
+# 2. **Streamable HTTP** - Replaces HTTP+SSE, more efficient, supports multiple connections
+#
+# SSE is now primarily for backward compatibility.
+#
+# The rmcp crate implements all these transports correctly following the spec.
