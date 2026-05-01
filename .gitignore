@@ -9,6 +9,9 @@ Thumbs.db
 *.swo
 *~
 
+# Git worktrees
+.worktrees/
+
 # Go
 backend/bin/
 backend/tmp/
