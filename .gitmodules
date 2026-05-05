@@ -1,3 +1,3 @@
 [submodule "llm_wiki_lite"]
 	path = llm_wiki_lite
-	url = https://github.com/Akers/llm_wiki_lite.git
+	url = git@github.com:Akers/llm_wiki_lite.git
